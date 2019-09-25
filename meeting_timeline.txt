@@ -1,0 +1,16 @@
+# 23rd September
+> Group has been created
+> Meeting Objectives:
+ - planning the game idea
+ - revision on basic HTML, CSS, JavaScript and MySQL
+ 
+> Objectives achieved:
+ - created story board with characters, detailed levels, and a plot line
+ - decided on character graphics 
+ - Shared resources to revise HTML, CSS, JavaScript and MySQL
+ - Read through given example source codes 
+ 
+> Objectives for next meeting 
+ - describing wireframe of the game 
+ - Be ready with an idea of developing game engines and simple HTML games 
+ 
