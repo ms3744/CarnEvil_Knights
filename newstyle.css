@@ -1,0 +1,58 @@
+body {
+        margin: 0;
+        background-image: url("../carnEvilbg2.jpg");
+        height: 100%; 
+        background-position: center;
+        background-repeat: no-repeat; 
+        background-size: cover;
+	}
+@font-face {
+  font-family: EvilFont;
+  src: url(gypsycursefont.ttf);
+  font-weight: bold;
+}
+
+h1{
+	text-align: center;
+	font-size: 90px;
+	font-family: EvilFont;
+	color: #F8F8FF;
+	font-weight: bold;
+	
+}
+
+p{
+	color: #F8F8FF;     
+	font-size: 35px;
+	font-style: italic;
+	font-weight: bold;
+	font: sans-serif;
+        }
+
+#myCanvas{
+	width = 500px;
+	height = 600px;
+	color: #F8F8FF;       
+	font-weight: bold;
+        
+}
+
+table, td{
+	border: 1.5px solid black;
+}
+
+#ins{
+	font-family: "Courier New", Courier, monospace; 
+	font-size: 30px;
+	color: #F8F8FF;      
+	font-weight: bold;
+	font-style: italic;
+}
+
+#instructions {
+    font-family: "Courier New", Courier, monospace; 
+	font-size: 20px;
+	color: #FF7F50;      
+	font-weight: bold;
+} 
+}
