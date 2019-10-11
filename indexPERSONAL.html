@@ -1,0 +1,83 @@
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="stylePERSONAL.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title> CarnEvil_Knights </title>
+</head>
+
+<body> 
+    <header><h1> Welcome to CarnEvil_Knights </h1></header> 
+    <div id="myCanvas" ></div>
+    <div id="myDiv">
+        <p>Canvas structure created</p>
+        <div id = 'scoreboard'> 
+            <p> <b> Score </b> : <span id = 'score'> </span> </p> 
+            <p> <b> Level </b> : <span id = 'level'> </span> </p> 
+            <p> <b> Speed </b> : <span id = 'speed'> </span> </p> 
+        </div>
+    </div>
+
+
+    <h2 id="ins">INSTRUCTION TIME !!!</h2>
+    <p>
+        <ol class="Time to follow the rules knights! ">
+            <li> Ins 1 </li>
+            <li> Ins 2 </li>
+            <li> Ins 3 </li>
+        </ol>
+    </p> 
+
+
+<!--<script type="text/javascript" src="mainPERSONAL.js">
+
+</script> -->
+
+<script>
+    $(document).ready(function(){
+        
+        var canvas = $('#myCanvas');
+
+        //ON LOADING - The div will be of color black and it will display text to begin game
+        $(canvas).css('background-color', 'black');
+        $(canvas).html('<button id = "begin">Begin Game</button>');  
+
+        //The 'Begin Game' text will grow on hover to entice user to click and begin the game
+        $('#begin').hover(
+            function(){
+                $(this).animate({fontSize: '100px'}, 1000);
+            },        
+            function(){
+                $(this).animate({fontSize: '70px'}, 1000);
+            },
+            //function(){$(this).css('cursor', 'pointer')}
+        );
+
+        $(canvas).click(function() {
+            //Changing the screen
+            $(this).replaceWith('<div id="myCanvas"> <div id="background"> </div> <div id = "knight"> </div> <div id = "grave"> </div> </div>');
+            
+            //Variables
+
+            //Easy reference to these elements
+            var background = $('#background');
+            var knight = $('#knight');
+            var grave = $('#grave');
+
+            //important metrics
+            var grave_initial_position = parseInt(pole.css(left));
+            var speed = 10;
+
+            
+            //Adding a score board
+            
+        });
+        
+        
+    });
+</script>
+</body>
+
+</html>
