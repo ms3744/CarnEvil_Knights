@@ -4,31 +4,19 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="stylePERSONAL.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title> CarnEvil_Knights </title>
 </head>
 
-<body id= "body" onload = "draw()">
+<body> 
     <header><h1> Welcome to CarnEvil_Knights </h1></header> 
-    <canvas id="myCanvas" ></canvas>
+    <div id="myCanvas" ></div>
     <div id="myDiv">
         <p>Canvas structure created</p>
-        <div id="scoreboard">
-            <table align="right">
-                <tr>
-                    <td colspan="3"><br/> Scores
-                        <td>
-                </tr>
-                <tr>
-                    <td>player 1</td>
-                    <td>player 2</td>
-                    <td>player 3</td>
-                </tr>
-                <tr>
-                    <td>Score 1</td>
-                    <td>Score 2</td>
-                    <td>Score 3</td>
-                </tr>
-            </table>
+        <div id = 'scoreboard'> 
+            <p> <b> Score </b> : <span id = 'score'> </span> </p> 
+            <p> <b> Level </b> : <span id = 'level'> </span> </p> 
+            <p> <b> Speed </b> : <span id = 'speed'> </span> </p> 
         </div>
     </div>
 
@@ -43,26 +31,52 @@
     </p> 
 
 
-<script type="text/javascript" src="mainPERSONAL.js">
- 
- 
-/* canvas.innerHTML="canvas created";
+<!--<script type="text/javascript" src="mainPERSONAL.js">
 
- var ghost = new Image();
- var grave = new Image();
- var pumpkin = new Image();
- var background = new Image();
- shost.src = "C:\Users\AA\Documents\WP Coursework\ghost4.png";
- grave.src = "C:\Users\AA\Documents\WP Coursework\grave1.png";
- pumpkin.src = "C:\Users\AA\Documents\WP Coursework\pumpkin2.png";
- background.src = "C:\Users\AA\Documents\WP Coursework\TileAble Halloween Background 02.png";
+</script> -->
 
- var audioName = new Audio();
-function draw() {
-    context.drawImage(background, 0, 0);
-}
+<script>
+    $(document).ready(function(){
+        
+        var canvas = $('#myCanvas');
 
-draw(); */
+        //ON LOADING - The div will be of color black and it will display text to begin game
+        $(canvas).css('background-color', 'black');
+        $(canvas).html('<button id = "begin">Begin Game</button>');  
+
+        //The 'Begin Game' text will grow on hover to entice user to click and begin the game
+        $('#begin').hover(
+            function(){
+                $(this).animate({fontSize: '100px'}, 1000);
+            },        
+            function(){
+                $(this).animate({fontSize: '70px'}, 1000);
+            },
+            //function(){$(this).css('cursor', 'pointer')}
+        );
+
+        $(canvas).click(function() {
+            //Changing the screen
+            $(this).replaceWith('<div id="myCanvas"> <div id="background"> </div> <div id = "knight"> </div> <div id = "grave"> </div> </div>');
+            
+            //Variables
+
+            //Easy reference to these elements
+            var background = $('#background');
+            var knight = $('#knight');
+            var grave = $('#grave');
+
+            //important metrics
+            var grave_initial_position = parseInt(pole.css(left));
+            var speed = 10;
+
+            
+            //Adding a score board
+            
+        });
+        
+        
+    });
 </script>
 </body>
 
