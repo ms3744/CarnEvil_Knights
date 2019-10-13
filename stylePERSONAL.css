@@ -37,8 +37,9 @@ font: sans-serif;
     display: block;
 	width: 900px;
 	height: 100px;
-	border: 20px solid rgb(255, 255, 255);
-	
+    border: 20px solid rgb(255, 255, 255);
+    overflow: hidden;
+	cursor: pointer;
 }
 
 #begin{
@@ -96,27 +97,31 @@ font: sans-serif;
 	to { background-position: 100% 0; }
 }
 
-#animate-area	{ 
-	width: 560px; 
-	height: 400px; 
-	background-image: url(bg-clouds.png);
+.animate-area	{ 
+    background-position: center center;
+    background-size: cover;
+    height: 500px;
+    width: 900px; 
+	background-image: url(https://s3.envato.com/files/234687569/Halloween%20Game%20Background/Halloween%20BG%2002/TileAble%20Halloween%20Background%2002.png);
 	background-position: 0px 0px;
 	background-repeat: repeat-x;
 
 	animation: animatedBackground 40s linear infinite;
 }
 
-#sword {
-	background-image: url(../../finns_sword_vector_by_ravingspectrum-d6peinb.png);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: contain;
+/* Animating background code taken from (https://davidwalsh.name/demo/background-animation-css.php) */
+
+#bomb {
+    border-radius: 50%;
+    border: none;
+    background-color: white;
     height: 85px;
-    width: 93px;
+    width: 85px;
     display: block;
     position: relative;
-    top: -20px;
-    left: 152px;
+    top: 100px;
+    left: 100px;
+    transform: translate(50px, 50px);
 }
 
 #ghost {
