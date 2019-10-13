@@ -109,6 +109,8 @@ font: sans-serif;
 	animation: animatedBackground 40s linear infinite;
 }
 
+/* Animating background code taken from (https://davidwalsh.name/demo/background-animation-css.php) */
+
 #bomb {
     border-radius: 50%;
     border: none;
