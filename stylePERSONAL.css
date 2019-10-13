@@ -54,15 +54,15 @@ font: sans-serif;
 	left : 350px;
 }
 
-#background{
+.background{
 	background-image: url(https://s3.envato.com/files/234687569/Halloween%20Game%20Background/Halloween%20BG%2002/TileAble%20Halloween%20Background%2002.png);
     background-position: center center;
     background-size: cover;
+    background-repeat: no-repeat;
     height: 500px;
     width: 900px;
     display: block;
     position: relative;
-    top: -200px;
 }
 
 #knight {
@@ -71,11 +71,11 @@ font: sans-serif;
     background-repeat: no-repeat;
     background-size: contain;
     height: 200px;
-    width: 200px;
+    width: 270px;
     display: block;
     position: relative;
-    top: -400px;
-    left: 40px;
+    top: 100px;
+    left: 0px;
 }
 
 #grave {
@@ -87,8 +87,49 @@ font: sans-serif;
     width: 93px;
     display: block;
     position: relative;
-    top: -500px;
+    top: 0px;
     left: 500px;
+}
+
+@keyframes animatedBackground {
+	from { background-position: 0 0; }
+	to { background-position: 100% 0; }
+}
+
+#animate-area	{ 
+	width: 560px; 
+	height: 400px; 
+	background-image: url(bg-clouds.png);
+	background-position: 0px 0px;
+	background-repeat: repeat-x;
+
+	animation: animatedBackground 40s linear infinite;
+}
+
+#sword {
+	background-image: url(../../finns_sword_vector_by_ravingspectrum-d6peinb.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 85px;
+    width: 93px;
+    display: block;
+    position: relative;
+    top: -20px;
+    left: 152px;
+}
+
+#ghost {
+	background-image: url(https://www.pngonly.com/wp-content/uploads/2017/05/Ghost-PNG-Image-01.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 85px;
+    width: 93px;
+    display: block;
+    position: relative;
+    bottom: 20px;
+    left: 152px;
 }
 
 #ins{
