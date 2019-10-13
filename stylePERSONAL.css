@@ -39,7 +39,6 @@ font: sans-serif;
 	height: 100px;
     border: 20px solid rgb(255, 255, 255);
     overflow: hidden;
-	cursor: pointer;
 }
 
 #begin{
@@ -54,7 +53,7 @@ font: sans-serif;
 	border: none;
 	left : 350px;
 }
-
+/*
 .background{
 	background-image: url(https://s3.envato.com/files/234687569/Halloween%20Game%20Background/Halloween%20BG%2002/TileAble%20Halloween%20Background%2002.png);
     background-position: center center;
@@ -64,7 +63,7 @@ font: sans-serif;
     width: 900px;
     display: block;
     position: relative;
-}
+} */
 
 #knight {
 	background-image: url(http://gameartpartners.com/wp-content/uploads/edd/2015/03/Darkness_Knight_Featured.png);
@@ -129,12 +128,13 @@ font: sans-serif;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
-    height: 85px;
-    width: 93px;
+    height: 200px;
+    width: 300px;
     display: block;
     position: relative;
-    bottom: 20px;
-    left: 152px;
+    bottom: 400px;
+    left: 700px;
+    cursor: pointer;
 }
 
 #ins{

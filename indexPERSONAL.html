@@ -65,21 +65,21 @@
             
             //Variables
             var canvas1 = $('#myCanvas');
-            canvas1.addClass('background');
+            canvas1.addClass('animate-area');
             //var background = $('.background');
             var knight = $('#knight');
             var grave = $('#grave');
             var scoreWrite = $('#score');
 
 
-            setInterval(function() {
+           /* setInterval(function() {
                 var newposition = parseInt(canvas1.css('canvas1PositionX')) - 25;
                 canvas1.animate({
                     canvas1PositionY: "0px",
                     canvas1PositionX: newposition + "px"
                 }, 2);  
                 console.log('moving');
-            }, 2);
+            }, 2); */
             
 
 
@@ -90,9 +90,9 @@
             var change_position = -10;
             var isJumping = false;
             var score = 0;
-            var hasBeenScored = false
+            var hasBeenScored = false;
         
-           var level1 =
+            var level1 =
                 setInterval(function(){
                 var grave_current_position = parseInt(grave.css('left'));
 
@@ -113,12 +113,23 @@
                 
 
                 //Passing to next level
-                if(score > 500){
-                        //only 0 right now for -+debugging
+                if(score > 0){
+                        //only 2 right now for -+debugging
                         console.log("Jumping to level 2");
                         clearInterval(level1);
-                        canvas1.replaceWith('<div id="myCanvas"> <div id = "knight"> </div> <div id = "sword"> <div id = "ghost"> </div>  </div> </div>');
+                        canvas1.replaceWith('<div id="myCanvas"> <div id = "knight"> </div> <div id = "ghost"> </div>   </div>');
                         //var level2 = setInterval(begin_level_two(), 40);
+                        var ghost = $('#ghost');
+                        var canvas2 = $('#myCanvas');
+                        canvas2.addClass('animate-area');
+
+
+                        ghost.click(function(event){
+                            console.log("Ghost clicked");
+                            ghost.css('visibility', 'hidden');
+                        });
+        
+        
                 }
 
                 //The grave passes through
@@ -128,9 +139,10 @@
 
     });
 
+    
 
             
-    $(document).mousedown(function(event){
+    /*$(document).mousedown(function(event){
         var ghost = $('#ghost');
         var sword = $('#sword');
         var canvas2 = $('#myCanvas');
@@ -140,7 +152,7 @@
        
 
         //time between each frame
-        var dt = 40;
+        var dt = 0.4;
 
         var throw_sword = setInterval(function(){
 
@@ -150,10 +162,14 @@
             var angle = Math.atan2((event.clientY - swordY), (event.clientX - swordX));
             var degree = (angle * 180) / 3.14;
 
-            if(isThrowing == false) {
-                sword.css('left', (dt * speed * Math.cos(degree)));
-                sword.css('bottom', (dt * speed * (-1) * Math.sin(degree)));
-            }
+            //if(isThrowing == false) {
+                //sword.css('left', swordX + 20);
+                //sword.css('bottom', swordY + 20);
+               
+                sword.css('left', swordX - (dt * speed * Math.cos(degree)));
+                sword.css('bottom', swordY + (dt * speed * (-1) * Math.sin(degree)));
+                console.log(swordX + " now " + swordY);
+            //}
             
 
             console.log(swordX + " " + swordY);
@@ -163,14 +179,14 @@
                 degree = 75;
             }
             console.log(degree);
-        }, 4000);
+        }, 40);
         
+        
+    });
 
-        $(document).mouseup(function(event){
+    $(document).mouseup(function(event){
             isThrowing = true;
-        })
-        
-    })
+    }); */
 
 
             
