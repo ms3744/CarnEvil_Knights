@@ -1,0 +1,200 @@
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="stylePERSONAL.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title> CarnEvil_Knights </title>
+</head>
+
+<body> 
+    <header><h1> Welcome to CarnEvil_Knights </h1></header> 
+    <div id="myCanvas" ></div>
+    <div id="myDiv">
+        <p>Canvas structure created</p>
+        <div id = 'scoreboard'> 
+            <p> <b> Score </b> : <span id = 'score'> </span> </p> 
+            <p> <b> Level </b> : <span id = 'level'> </span> </p> 
+            <p> <b> Speed </b> : <span id = 'speed'> </span> </p> 
+        </div>
+    </div>
+
+
+    <h2 id="ins">INSTRUCTION TIME !!!</h2>
+    <p>
+        <ol class="Time to follow the rules knights! ">
+            <li> Ins 1 </li>
+            <li> Ins 2 </li>
+            <li> Ins 3 </li>
+        </ol>
+    </p> 
+
+
+<!--<script type="text/javascript" src="mainPERSONAL.js">
+
+</script> -->
+
+<script>
+    $(document).ready(function(){
+
+
+
+        var speed = 5;
+
+        var canvas = $('#myCanvas');
+
+        //ON LOADING - The div will be of color black and it will display text to begin game
+        $(canvas).css('background-color', 'black');
+        $(canvas).html('<button id = "begin">Begin Game</button>');  
+
+        //The 'Begin Game' text will grow on hover to entice user to click and begin the game
+        $('#begin').hover(
+            function(){
+                $(this).animate({fontSize: '100px'}, 1000);
+            },        
+            function(){
+                $(this).animate({fontSize: '70px'}, 1000);
+            },
+        );
+
+        $(canvas).click(function() {
+            //Changing the screen
+            $(this).replaceWith('<div id="myCanvas"> <div id = "knight"> </div> <div id = "grave">  </div> </div>');
+
+            
+            //Variables
+            var canvas1 = $('#myCanvas');
+            canvas1.addClass('animate-area');
+            //var background = $('.background');
+            var knight = $('#knight');
+            var grave = $('#grave');
+            var scoreWrite = $('#score');
+
+
+           /* setInterval(function() {
+                var newposition = parseInt(canvas1.css('canvas1PositionX')) - 25;
+                canvas1.animate({
+                    canvas1PositionY: "0px",
+                    canvas1PositionX: newposition + "px"
+                }, 2);  
+                console.log('moving');
+            }, 2); */
+            
+
+
+            //important metrics
+            var grave_initial_position = 800 ;
+            var knight_height = parseInt(knight.css('top'));
+            var knight_position = parseInt(knight.css('left'));
+            var change_position = -10;
+            var isJumping = false;
+            var score = 0;
+            var hasBeenScored = false;
+        
+            var level1 =
+                setInterval(function(){
+                var grave_current_position = parseInt(grave.css('left'));
+
+                //Updating score 
+                //we check if it has been scored already so that it doesnt add to the score for every time it passes the first condition
+                if(grave_current_position < 15 && hasBeenScored == false){
+                    hasBeenScored = true;
+                    score++;
+                    scoreWrite.html(score);
+                }
+
+                //if it passes the div it must come back on the other side
+                if(grave_current_position < change_position){
+                    //it has not been score yet for this grave
+                    hasBeenScored = false;
+                    grave_current_position = grave_initial_position;
+                }
+                
+
+                //Passing to next level
+                if(score > 5){
+                        //only 2 right now for -+debugging
+                        console.log("Jumping to level 2");
+                        clearInterval(level1);
+                        canvas1.replaceWith('<div id="myCanvas"> <div id = "knight"> </div> <div id = "ghost"> </div>   </div>');
+                        //var level2 = setInterval(begin_level_two(), 40);
+                        var ghost = $('#ghost');
+                        var canvas2 = $('#myCanvas');
+                        canvas2.addClass('animate-area');
+
+
+                        ghost.click(function(event){
+                            console.log("Ghost clicked");
+                            ghost.css('visibility', 'hidden');
+                        });
+        
+        
+                }
+
+                //The grave passes through
+                grave.css('left', grave_current_position - speed);
+
+            }, 40);
+
+    });
+
+    
+
+            
+    /*$(document).mousedown(function(event){
+        var ghost = $('#ghost');
+        var sword = $('#sword');
+        var canvas2 = $('#myCanvas');
+        canvas2.addClass('background');
+        var isThrowing = false;
+
+       
+
+        //time between each frame
+        var dt = 0.4;
+
+        var throw_sword = setInterval(function(){
+
+            var swordX = parseInt(sword.css('left'));
+            var swordY = parseInt(sword.css('bottom'));
+
+            var angle = Math.atan2((event.clientY - swordY), (event.clientX - swordX));
+            var degree = (angle * 180) / 3.14;
+
+            //if(isThrowing == false) {
+                //sword.css('left', swordX + 20);
+                //sword.css('bottom', swordY + 20);
+               
+                sword.css('left', swordX - (dt * speed * Math.cos(degree)));
+                sword.css('bottom', swordY + (dt * speed * (-1) * Math.sin(degree)));
+                console.log(swordX + " now " + swordY);
+            //}
+            
+
+            console.log(swordX + " " + swordY);
+
+            //degree constraints = < 75
+            if(degree > 75){
+                degree = 75;
+            }
+            console.log(degree);
+        }, 40);
+        
+        
+    });
+
+    $(document).mouseup(function(event){
+            isThrowing = true;
+    }); */
+
+
+            
+});
+</script>
+</body>
+
+</html>
+
+
+
