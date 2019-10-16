@@ -58,31 +58,34 @@
             
                  // making the ghost appear
 
-      var canvas = $('#myCanvas');
+      
       var ghost = $('ghost');
       var ghost_speed = $('#speed');
-
-      
-      var canvas_width = parseInt(canvas.width());
-      var speed=7;
-      var ghost_initial_position = parseInt(ghost.css('left'));
-
+      var speed=5;
+      var ghost_initial_position = 700;
+      var change_position = -10;
+      var score = 0;
+      var hasBeenScored = false;
       var the_ghost = setInterval(function (){
-      var ghost_current_position = parseInt(ghost.css('left'));
-          
+      var ghost_current_position = parseInt(ghost.css('left'));  
        
        //to keep the ghost within the canvas   
-      if (ghost_current_position > canvas_width)
-             { window.onload = function() {
-                 var ghostimg = document.getElementById("ghost");
-                 var canvas = document.getElementById("myCanvas");
-                 var context = canvas.getContext("2d");
-                 context.drawImage(ghostimg, (Math.random() * 1000),(Math.random() * -1000) ); //to get random x and y axis
-             }
+      if (ghost_current_position < 15 && hasBeenScored == false)
+             {    hasBeenScored = true;
+                  score++;
+                  scoreWrite.html(score);
+                  speed = speed+1;
+                  
+                }
+      if(ghost_current_position < change_position){
+                    
+                    hasBeenScored = false;
+                    ghost_current_position = ghost_initial_position;
+                    
+                }
 
-
-                 ghost_current_position = ghost_initial_position; 
-             }
+                  
+             
                  
 
 
