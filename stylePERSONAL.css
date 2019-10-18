@@ -24,11 +24,24 @@ font-weight: bold;
 
 p{
 color: #F8F8FF;     
-font-size: 35px;
+font-size: 20px;
 font-style: italic;
 font-weight: bold;
 font: sans-serif;
-	}
+
+}
+
+span {
+    padding: 200px;
+}
+
+#score {
+    padding: 10px;
+}
+
+#speed {
+    padding: 10px;
+}
 
 #myCanvas{
 	padding: 200px 0;
@@ -53,6 +66,15 @@ font: sans-serif;
 	border: none;
 	left : 350px;
 }
+
+#scoreboard {
+    background-color: black;
+    height: 20px;
+    width: 900px;
+    padding: 20px;
+    position: relative;
+    bottom : 221px;
+}
 /*
 .background{
 	background-image: url(https://s3.envato.com/files/234687569/Halloween%20Game%20Background/Halloween%20BG%2002/TileAble%20Halloween%20Background%2002.png);
@@ -74,7 +96,7 @@ font: sans-serif;
     width: 270px;
     display: block;
     position: relative;
-    top: 100px;
+    top: 10px;
     left: 0px;
 }
 
@@ -87,7 +109,7 @@ font: sans-serif;
     width: 93px;
     display: block;
     position: relative;
-    top: 0px;
+    bottom: 105px;
     left: 500px;
 }
 
@@ -128,21 +150,23 @@ font: sans-serif;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
-    height: 200px;
-    width: 300px;
+    height: 100px;
+    width: 200px;
     display: block;
     position: relative;
-    bottom: 400px;
+    bottom: 300px;
     left: 700px;
     cursor: pointer;
+    
 }
 
 #ins{
 font-family: "Courier New", Courier, monospace; 
-font-size: 30px;
+font-size: 20px;
 color: #F8F8FF;      
 font-weight: bold;
 font-style: italic;
+margin-left: 500px;
 }
 
 #instructions {
