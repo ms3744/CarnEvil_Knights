@@ -1,326 +1,194 @@
-var ghost = new Image();
- var grave = new Image();
- var knight = new Image();
- var background = new Image();
- 
- knight.src = "http://gameartpartners.com/wp-content/uploads/edd/2015/03/Darkness_Knight_Featured.png";
- ghost.src = "https://www.freeiconspng.com/uploads/simple-cartoon-ghost-png-30.png";
- grave.src = "https://cdn.pixabay.com/photo/2014/04/03/11/54/headstone-312540_640.png";
- background.src="https://s3.envato.com/files/234687569/Halloween%20Game%20Background/Halloween%20BG%2002/TileAble%20Halloween%20Background%2002.png";
- 
- var canvas = document.getElementById("myCanvas");
- ++
- 
-gameBegin = function () {
-    context.font = "30px EvilFont";
-    context.beginPath();
-    context.fillRect(0, 0, 800, 500);
-    context.fillStyle = "#ffffff";
-    context.fillText("Begin Game", 110, 80);
-    context.fill();
-    context.closePath();
-
-    document.addEventListener("mousedown", draw);
-
-}
-
-
-//Storing the moves of a grave in an array of classes
- var graves = [];
- graves[0] = {
-     x : 200,
-     y : 100,
-     velocity : 0
- };
-
- //Moves of a knight
-var knightMoves = {
-    kX : 5,
-    kY : 100,
-    jumping : false,
-    jumpVelocity : 0
-};
+$(document).ready(function(){
 
 
 
+    var canvas = $('#myCanvas');
 
-//Controller Class
-var controller = {
-    up: false,
+    //ON LOADING - The div will be of color black and it will display text to begin game
+    $(canvas).css('background-color', 'black');
+    $(canvas).html('<button id = "begin">Begin Game</button>');  
 
-    isItJumping: function(event) {
-        var state = (event.type == "keydown") ? true : false;
-        switch(event.keyCode) {
-            case 32 :                           //32 = space bar //38 = up arrow
-            case 38 : controller.up = state;
-                      jump();
-                      break;
-        }
-        console.log(controller.up);
-    }
-};
+    //The 'Begin Game' text will grow on hover to entice user to click and begin the game
+    $('#begin').hover(
+        function(){
+            $(this).animate({fontSize: '100px'}, 1000);
+        },        
+        function(){
+            $(this).animate({fontSize: '70px'}, 1000);
+        },
+    );
 
-jump = function() {    
+    $(canvas).click(function() {
+        //Changing the screen
+        $(this).replaceWith('<div id="myCanvas"> <p id = "scoreboard"> <span> <b> Score </b> : <span id = "score"> </span> <span> <b> Speed </b> : <span id = "speed"> </span> </span> </p> <div id = "knight"> </div> <div id = "grave">  </div> </div>');
 
-    if(controller.up && knightMoves.jumping == false){
-        knightMoves.jumpVelocity -= 60;
-        knightMoves.kX += 5;
-        knightMoves.jumping = true;
-       console.log("Jumping");
-    } 
-
-    //Gravity should bring the knight down
-    knightMoves.jumpVelocity += 0.5;
-
-    //Knight's position
-    knightMoves.kY += knightMoves.jumpVelocity;
-    knightMoves.kX += 0.5;
-
-    //Friction and gravity slows it down as well
-    
-    knightMoves.jumpVelocity *= 0.2;
-
-    if(knightMoves.kY > 100){
-        knightMoves.jumping = false;
-        knightMoves.velocity = 0;
-        knightMoves.kY = 100;
-        knightMoves.kX = 10;
-    }
-    
-   
-    requestAnimationFrame(jump);
-    
-} 
-
-
-
-draw = function(){
-    
-    
-    
-    context.drawImage(background,0,0,981,158);
-
-    for(var i = 0; i < graves.length; i++){
-        context.drawImage(grave, graves[i].x, graves[i].y, 50, 50);
-        graves[i].x --;
         
-        if(graves[i].x == 15) {
-                graves.push({
-                    x : 260,
-                    y : 100
-                });
-            }            
-    }
+        //Variables
+        var gameArena = $('#myCanvas');
+        gameArena.addClass('animate-area');
+        var knight = $('#knight');
+        var grave = $('#grave');
+        var scoreWrite = $('#score');
+        
+
+
+        //important metrics
+        var grave_initial_position = 800 ;
+        var speed = 6;
+        var knight_position = parseInt(knight.css('left'));
+        var change_position = -10;
+        var isJumping = false;
+        var score = 0;
+        var hasBeenScored = false;
+        var ghostsEntered = false;
+        var hasBeenScored_ghost = false; 
+        var speedWrite = $('#speed');
+        var jumpSpeed = 1100;
+
     
+        var level1 =
+            setInterval(function(){
+            var grave_current_position = parseInt(grave.css('left'));
+            var grave_random = Math.floor(Math.random() * 500);
+            var ghost_current_position = 0;
+            var knight_height = parseInt(knight.css('top'));
+
+
+            //COLLISION DETECTION
+            if( ( grave_current_position < 0 || ( ghost_current_position < 0 ) ) && knight_height > (-90) ) {
+               // knight.css('visibility', 'hidden');
+                console.log('GAME OVER');
+                game_over();
+            }
+            
+            else {
+                //Updating score 
+            //we check if it has been scored already so that it doesnt add to the score for every time it passes the first condition
+            if(grave_current_position < 15 && hasBeenScored == false){
+                hasBeenScored = true;
+                score++;
+                scoreWrite.html(score);
+            }
+            
+            
+            //if it passes the div it must come back on the other side
+            if(grave_current_position < change_position){
+                //it has not been score yet for this grave
+                hasBeenScored = false;
+                grave_current_position = grave_initial_position + grave_random;
+                console.log("Grave new position :" + grave_current_position);
+            }
+            
+            
+
+            //Adding
+            if(score > 5){
+                    console.log("checking if score is > 5");
+                    //only 5 right now for -+debugging
+
+                    if(ghostsEntered == false) {
+                        gameArena.append("<div id = 'ghost'> </div>");
+                        ghostsEntered = true;
+                        console.log("ghost added"); 
+                    }
+
+                    
+                    var ghost = $('#ghost');
+                     // making the ghost appear
+  
+                
+                    //var speed = 5;
+                    var ghost_initial_position = 800; 
+                    var ghost_random = Math.floor(Math.random() * 1000);
+                   // var change_position_ghost = -10; 
+                   // var score = 0; 
+                   
+                     
+                    //var the_ghost = setInterval(function (){
+
+                        ghost_current_position = parseInt(ghost.css('left'));  
+                        
+                        //to keep the ghost within the canvas   
+                        if (ghost_current_position < 15 && hasBeenScored_ghost == false)
+                                {    hasBeenScored_ghost = true;
+                                    score++;
+                                    scoreWrite.html(score);
+                                    //speed = speed+1;
+                                    
+                                    }
+                        if(ghost_current_position < change_position && hasBeenScored_ghost == true){
+                                        
+                                        hasBeenScored_ghost = false;
+                                        ghost_current_position = ghost_initial_position + ghost_random;
+                                        console.log("New Position " + ghost_current_position);
+                                        ghost.css('visibility', 'visible');
+                                        
+                                    }
+                
+                                    
+                                    
+                        ghost.css('left', ghost_current_position - speed); //move the ghost 
+                     //}, 4000);   
+         
+                     
+                    ghost.click(function(event){
+                        console.log("Ghost clicked");
+                        //score++;
+                        ghost.css('visibility', 'hidden');
+                    }); 
+
+                    $(document).keydown(function(event){
+                        //To slash ghosts
+                        if(event.keyCode = 39){
+                            ghost.css('visibility', 'hidden');
+                        }
+                    });
     
-    
-    context.drawImage(knight, knightMoves.kX,knightMoves.kY, 50,50);
+                } 
 
-    //The knight is constantly running, but the perspective is fixed on the knight, so the grave appears to come toward the knight 
-
-    
-    requestAnimationFrame(draw);
-    
-}
-
-
-
-document.addEventListener("keydown", controller.isItJumping);
-document.addEventListener("keyup", controller.isItJumping);
-
-
-//if the gamer presser up or space bar the knight must jump to avoid the obstacles
-
-
- /*
-function gameBegins() {
-    arena.begin();
-}
-
-drawing.onload = function() {
-    context.drawImage(background,0,0);
- };
-
-function obstacles() {
-
-}
-
-var arena = {
-canvas : document.getElementById("myCanvas"),
-context : canvas.getContext("2d"),
-begin : function() {
-    drawing.onload = function() {
-        context.drawImage(background,0,0);
-     };
-},
-updateArena : function() {
-
-},
-end : function() {
-    arena.context.fillRect(20,20,100,150);
-}
-
-} */
-
-/* function setup() {
-    var canvas = getElementById("myCanvas");
-    var context = canvas.getContext(2d);
-    canvas.innerHTML
-}
-
-function draw() {
-
-} */ 
-
-
-
-
-/*setInterval(function() {
-                var newposition = parseInt(background.css('backgroundPositionX')) - 25;
-                background.animate({
-                    backgroundPositionY: "0px",
-                    backgroundPositionX: newposition + "px"
-                }, 2);  
-                console.log('moving');
-            }, 2); */
-
-
-
-//Beginnning the game 
-            //A function that runs every 40 ms
-          /*  var game_begin = setInterval(function(){
-                var grave_current_position = parseInt(grave.css('left'));
-
-                //if it passes the div
-                if(grave_current_position > change_position){
-                    grave_current_position = grave_initial_position;
-                }
+                if (ghost_current_position < 15 && hasBeenScored_ghost == false)
+                                    {    hasBeenScored_ghost = true;
+                                        score++;
+                                        scoreWrite.html(score);
+                                        //speed = speed+1;
+                                         
+                                        }
+                
                 
                 //The grave passes through
-                grave.css('left', grave_current_position + speed);
-            }, 40); */
-
-
-
-
-
-
-
-/*
-            var sword = $('#sword');
-            var bulletList = [];
-        
-            function addBullet(color, bsize, bspeed, x, y, eX, eY) {
-                bulletList[bulletId] = new bullet(bulletId, color, bsize, bspeed, x, y, eX, eY);
-                bulletId += 1;
-            }
-        
-            function updateBullet(bullet, player) {
-                var dx = (bullet.eX - player.x);
-                var dy = (bullet.eY - player.y);
-                var mag = Math.sqrt(dx * dx + dy * dy);
-                bullet.velocityX = (dx / mag) * speed;
-                bullet.velocityY = (dy / mag) * speed;
-                bullet.x += bullet.velocityX;
-                bullet.y += bullet.velocityY;
-            }
-        
-            // Add event listener for `click` events.
-            canvas.onmousedown = function (e) {
-                addBullet("black", 10, 2, playerList[0].x, playerList[0].y, e.x, e.y);
-            };
-        
+                grave.css('left', grave_current_position - speed);
                 
-                });
-        
-                function radToDeg(angle) {
-                return angle * (180 / Math.PI);
-                }
-            
-            // On mouse movement
-            function onMouseMove(e) {
-                // Get the mouse position
-                var pos = getMousePos(canvas, e);
-        
-            
-                // Get the mouse angle
-                var mouseangle = radToDeg(Math.atan2((knight_position+ mouseX/2), (knight_height+mouseY/2)));
-            
-                // Convert range to 0, 360 degrees
-                if (mouseangle < 0) {
-                    mouseangle = 180 + (180 + mouseangle);
-                }
-            
-                // (...)
-            
-                // Set the player angle
-                player.angle = mouseangle;
-            } */
-
-
-
-
-
-
-           /* = setInterval(function()
-           
-           $(document).on('keydown', function (event) {
-                if((event.keyCode == 32 || event.keyCode == 38) && isJumping == false){
-                    isJumping = true;
-                    SetInterval(jump(), 50);
-                    
-                }
-            });
-
-           $(document).on('keyup', function (event) {
-               gravity();
-            });
-
-            function jump() {
-                knight.css('top', knight_height - 200);
+                speed += 0.001;
+                speedWrite.html(Math.floor(speed));
             }
 
-            function gravity() {
-                if(isJumping == true){
-                    knight.css('top', knight_height + 200);
-                    isJumping = false;
-                }
-            } */
+            
+        }, 40);
 
-
-
-            function begin_level_two()  {
-                canvas.replaceWith('<div id="myCanvas"> <div id = "knight"> </div> <div id = "sword"> <div id = "ghost"> </div> </div> </div>');
-        
-                console.log("in level 2");
-        
-                
-        
-                
-        
-                // Convert radians to degrees
-                function radToDeg(angle) {
-                    return angle * (180 / Math.PI);
-                }
-                
-                // On mouse movement
-                function onMouseMove(e) {
-                    // Get the mouse position
-                    //var pos = getMousePos(canvas, e);
-                
-                    // Get the mouse angle
-                    var mouseangle = radToDeg(Math.atan2(((swordX - e.clientX), (swordY - e.clientY))));
-                
-                    // Convert range to 0, 360 degrees
-                    if (mouseangle < 0) {
-                        mouseangle = 180 + (180 + mouseangle);
-                    }
-                
-                
-                    // Set the player angle
-                    sword.angle = mouseangle;
-                }
-        
-        
+        $(document).on('keydown', function(e){
+            
+            var key = e.keyCode;
+            if (key === 32){  //SPACE BAR
+                knight.animate({top: '-=200%'}, jumpSpeed);
+                knight.animate({top: '+=200%'}, jumpSpeed + 100);
             }
+
+            isJumping = true;
+            jumpSpeed += 0.001;
+        });
         
+        
+        
+
+        function game_over() {
+            clearInterval(level1);
+            gameArena.replaceWith('<div id = "myCanvas" > </div>');
+            $('#myCanvas').css('background-color', 'black');
+            $('#myCanvas').html('<p id = "finalDisplay"> Game Over, you could not save the carnival! <br> Score : ' + score + ' <br> Speed : ' + Math.floor(speed) + ' </p> <button id = "beginAgain"> Play Again </button>');
+
+            $('#beginAgain').click(function () {
+            location.reload();     //reloads the page on restarting
+        }); 
+        }
+});     
+});
