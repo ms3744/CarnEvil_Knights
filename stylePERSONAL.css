@@ -67,6 +67,7 @@ span {
 	left : 350px;
 }
 
+
 #scoreboard {
     background-color: black;
     height: 20px;
@@ -110,7 +111,7 @@ span {
     display: block;
     position: relative;
     bottom: 105px;
-    left: 500px;
+    left: 1000px;
 }
 
 @keyframes animatedBackground {
@@ -131,19 +132,6 @@ span {
 }
 
 /* Animating background code taken from (https://davidwalsh.name/demo/background-animation-css.php) */
-
-#bomb {
-    border-radius: 50%;
-    border: none;
-    background-color: white;
-    height: 85px;
-    width: 85px;
-    display: block;
-    position: relative;
-    top: 100px;
-    left: 100px;
-    transform: translate(50px, 50px);
-}
 
 #ghost {
 	background-image: url(https://www.pngonly.com/wp-content/uploads/2017/05/Ghost-PNG-Image-01.png);
@@ -175,3 +163,31 @@ font-size: 20px;
 color: #FF7F50;      
 font-weight: bold;
 } 
+
+#finalDisplay {
+    color: rgb(255, 255, 255);  
+	font-family: EvilFont;
+	font-size: 50px;
+	text-align: center;
+	font-weight: bold;
+	background-color: black;
+	display: block;
+	position: relative;
+	border: none;
+    left : 30px;
+    top: -140px;
+}
+
+#beginAgain{
+    color: rgb(223, 20, 20);  
+	font-family: EvilFont;
+	font-size: 70px;
+	text-align: center;
+	font-weight: bold;
+	background-color: black;
+	display: block;
+	position: relative;
+	border: none;
+    left : 380px;
+    top: -170px;
+}
