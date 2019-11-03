@@ -12,12 +12,19 @@
     <header><h1> Welcome to CarnEvil_Knights </h1></header> 
     <div id="myCanvas" ></div>
     <div id="ins">
-            <p> Use UP or SPACE Key to jump to avoid graves <br> Use RIGHT Arrow Key to slash the ghosts </p>
+            <p> Use SPACE Key to jump to avoid graves <br> Use RIGHT Arrow Key to slash the ghosts </p>
     </div>
     
 
 
-<script type="text/javascript" src="mainPERSONAL.js">
+<script type="text/javascript" src="mainPERSONAL.js"></script>
+<script src = "https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script>
+    var socket = io();
+
+    socket.emit('happy');
+</script>
+
 
 </script> 
 </body>

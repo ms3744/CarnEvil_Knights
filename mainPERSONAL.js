@@ -6,7 +6,7 @@ $(document).ready(function(){
 
     //ON LOADING - The div will be of color black and it will display text to begin game
     $(canvas).css('background-color', 'black');
-    $(canvas).html('<button id = "begin">Begin Game</button>');  
+    $(canvas).html('<div id="login"><form action="auth" method="POST"><p> Enter your username <input type="text" name="username" required></p> <p> Enter your password <input type="text" name="password" required></p></div><input type="submit" id = "begin" name="Begin Game">Begin Game</button></form>');  
 
     //The 'Begin Game' text will grow on hover to entice user to click and begin the game
     $('#begin').hover(
@@ -18,9 +18,9 @@ $(document).ready(function(){
         },
     );
 
-    $(canvas).click(function() {
-        //Changing the screen
-        $(this).replaceWith('<div id="myCanvas"> <p id = "scoreboard"> <span> <b> Score </b> : <span id = "score"> </span> <span> <b> Speed </b> : <span id = "speed"> </span> </span> </p> <div id = "knight"> </div> <div id = "grave">  </div> </div>');
+    $("#begin").click(function() {
+        //Changing the screen       
+        $(canvas).replaceWith('<div id="myCanvas"> <p id = "scoreboard"> <span> <b> Score </b> : <span id = "score"> </span> <span> <b> Speed </b> : <span id = "speed"> </span> </span> </p> <div id = "knight"> </div> <div id = "grave">  </div> </div>');
 
         
         //Variables
@@ -38,7 +38,7 @@ $(document).ready(function(){
         var knight_position = parseInt(knight.css('left'));
         var change_position = -10;
         var isJumping = false;
-        var score = 0;
+        var score = -1;
         var hasBeenScored = false;
         var ghostsEntered = false;
         var hasBeenScored_ghost = false; 
@@ -67,7 +67,8 @@ $(document).ready(function(){
             if(grave_current_position < 15 && hasBeenScored == false){
                 hasBeenScored = true;
                 score++;
-                scoreWrite.html(score);
+                if(score > -1)
+                    scoreWrite.html(score);
             }
             
             
@@ -139,7 +140,7 @@ $(document).ready(function(){
 
                     $(document).keydown(function(event){
                         //To slash ghosts
-                        if(event.keyCode = 39){
+                        if(event.keyCode == 39){
                             ghost.css('visibility', 'hidden');
                         }
                     });
@@ -184,6 +185,8 @@ $(document).ready(function(){
             clearInterval(level1);
             gameArena.replaceWith('<div id = "myCanvas" > </div>');
             $('#myCanvas').css('background-color', 'black');
+            if(score > 0)
+                score--;
             $('#myCanvas').html('<p id = "finalDisplay"> Game Over, you could not save the carnival! <br> Score : ' + score + ' <br> Speed : ' + Math.floor(speed) + ' </p> <button id = "beginAgain"> Play Again </button>');
 
             $('#beginAgain').click(function () {
