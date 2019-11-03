@@ -11,7 +11,14 @@ font-family: EvilFont;
 src: url("gypsycursefont.ttf");
 font-weight: bold;
 }
-
+#login {
+    text-align: center;
+font-size: 50px;
+letter-spacing: 3px;
+font-family: EvilFont;
+color: #F8F8FF;
+font-weight: bold;
+}
 h1{
 text-align: center;
 font-size: 50px;
