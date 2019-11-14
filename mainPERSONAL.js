@@ -44,7 +44,6 @@ $(document).ready(function() {
         var hasBeenScored_ghost = false;
         var speedWrite = $('#speed');
         var jumpSpeed = 1100;
-        var slashSound;
         var jumpsound = document.getElementById('jumpsound');
         var slashSound = document.getElementById('slashsound');
 
