@@ -1,6 +1,8 @@
 $(document).ready(function(){
 
 
+    var socket = io();
+    var username = $('#username');
 
     var canvas = $('#myCanvas');
 
@@ -18,7 +20,10 @@ $(document).ready(function(){
         },
     );
 
-//     $("#begin").click(function() {
+    $('#signup').submit(function () {
+        $.cookie('username', $('#username').val());
+        $.cookie('password', $('#password').val());
+    });
 
-// });     
+     
 });

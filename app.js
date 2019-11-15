@@ -43,7 +43,6 @@ app.post('/auth', urlencodedParser, function(req, res){
  
     var username = req.body.username;
     var password = req.body.password;
-    var formdata = req.body.username + " " + req.body.password;
 
   
     var sql = "INSERT INTO players (Username, Password) VALUES ('"+ username +"','"+password+"');";
@@ -74,5 +73,20 @@ io.sockets.on('connection', function(socket) {
     socket.on('happy', function(){
         console.log('happy');
     });
+
+    socket.on('score', function(score,username){
+        
+        console.log(score);
+ 
+        var sql = "UPDATE players SET Current_Score = " + score + " WHERE Username = '" + username + "';"; //
+
+        connection.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log(result + " done");
+        });
+        
+    });
+
+    
 });
 

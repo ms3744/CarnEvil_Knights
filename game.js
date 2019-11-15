@@ -10,8 +10,11 @@ $(document).ready(function(){
             var knight = $('#knight');
             var grave = $('#grave');
             var scoreWrite = $('#score');
-            
+            var socket = io();
     
+            var username = $.cookie('username');
+            var password = $.cookie('password');
+
     
             //important metrics
             var grave_initial_position = 800 ;
@@ -177,6 +180,8 @@ $(document).ready(function(){
                     score--;
                 $('#myCanvas').html('<p id = "finalDisplay"> Game Over, you could not save the carnival! <br> Score : ' + score + ' <br> Speed : ' + Math.floor(speed) + ' </p> <button id = "beginAgain"> Play Again </button>');
     
+                
+                socket.emit('score',score,username);
                 $('#beginAgain').click(function () {
                 location.reload();     //reloads the page on restarting
             }); 
