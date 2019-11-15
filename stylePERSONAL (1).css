@@ -1,0 +1,200 @@
+body {
+	margin: 0;
+	background-image: url("carnEvilbg2.png");
+	height: 100%; 
+	background-position: center;
+	background-repeat: no-repeat; 
+	background-size: cover;
+}
+@font-face {
+font-family: EvilFont;
+src: url("gypsycursefont.ttf");
+font-weight: bold;
+}
+#login {
+    text-align: center;
+font-size: 50px;
+letter-spacing: 3px;
+font-family: EvilFont;
+color: #F8F8FF;
+font-weight: bold;
+}
+h1{
+text-align: center;
+font-size: 50px;
+letter-spacing: 3px;
+font-family: EvilFont;
+color: #F8F8FF;
+font-weight: bold;
+
+}
+
+p{
+color: #F8F8FF;     
+font-size: 20px;
+font-style: italic;
+font-weight: bold;
+font: sans-serif;
+
+}
+
+span {
+    padding: 100px;
+}
+
+#score {
+    padding: 10px;
+}
+
+#speed {
+    padding: 10px;
+}
+
+#myCanvas{
+	padding: 200px 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+	width: 900px;
+	height: 150px;
+    border: 20px solid rgb(255, 255, 255);
+    overflow: hidden;
+}
+
+#begin{
+	color: rgb(255, 255, 255);  
+	font-family: EvilFont;
+	font-size: 70px;
+	text-align: center;
+	font-weight: bold;
+	background-color: black;
+	display: block;
+	position: relative;
+	border: none;
+	left : 350px;
+}
+
+
+#scoreboard {
+    background-color: black;
+    height: 20px;
+    width: 900px;
+    padding: 20px;
+    position: relative;
+    bottom : 221px;
+}
+/*
+.background{
+	background-image: url(https://s3.envato.com/files/234687569/Halloween%20Game%20Background/Halloween%20BG%2002/TileAble%20Halloween%20Background%2002.png);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 500px;
+    width: 900px;
+    display: block;
+    position: relative;
+} */
+
+#knight {
+	background-image: url("knight-finalgif.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 220px;
+    width: 300px;
+    display: block;
+    position: relative;
+    top: 10px;
+    left: 0px;
+}
+
+#grave {
+	background-image: url("grave-final.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 375px;
+    width: 100px;
+    display: block;
+    position: relative;
+    bottom: 225px;
+    left: 1000px;
+}
+
+@keyframes animatedBackground {
+	from { background-position: 0 0; }
+	to { background-position: 100% 0; }
+}
+
+.animate-area	{ 
+    background-position: center center;
+    background-size: cover;
+    height: 200px;
+    width: 500px; 
+	background-image: url("bg.png");
+	background-position: 0px 0px;
+	background-repeat: repeat-x;
+
+	animation: animatedBackground 40s linear infinite;
+}
+
+/* Animating background code taken from (https://davidwalsh.name/demo/background-animation-css.php) */
+
+#ghost {
+	background-image: url("ghost-final.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 100px;
+    width: 200px;
+    display: block;
+    position: relative;
+    bottom: 300px;
+    left: 700px;
+    cursor: pointer;
+    
+}
+
+#ins{
+font-family: "Courier New", Courier, monospace; 
+font-size: 20px;
+color: #F8F8FF;      
+font-weight: bold;
+font-style: italic;
+margin-left: 500px;
+}
+
+#instructions {
+font-family: "Courier New", Courier, monospace; 
+font-size: 20px;
+color: #FF7F50;      
+font-weight: bold;
+} 
+
+#finalDisplay {
+    color: rgb(255, 255, 255);  
+	font-family: EvilFont;
+	font-size: 50px;
+	text-align: center;
+	font-weight: bold;
+	background-color: black;
+	display: block;
+	position: relative;
+	border: none;
+    left : 30px;
+    top: -140px;
+}
+
+#beginAgain{
+    color: rgb(223, 20, 20);  
+	font-family: EvilFont;
+	font-size: 70px;
+	text-align: center;
+	font-weight: bold;
+	background-color: black;
+	display: block;
+	position: relative;
+	border: none;
+    left : 380px;
+    top: -170px;
+}
