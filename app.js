@@ -77,14 +77,31 @@ io.sockets.on('connection', function(socket) {
     socket.on('score', function(score,username){
         
         console.log(score);
- 
-        var sql = "UPDATE players SET Current_Score = " + score + " WHERE Username = '" + username + "';"; //
-
-        connection.query(sql, function (err, result) {
+        
+        //To set the score
+        var setScore = "UPDATE players SET Current_Score = " + score + " WHERE Username = '" + username + "';"; 
+    
+        //To check if the score is the highest score yet
+        var getHighest = "SELECT Highest_Score from players WHERE Username = '" + username + "';";
+        connection.query(setScore, function (err, result) {
             if (err) throw err;
             console.log(result + " done");
         });
-        
+
+        connection.query(getHighest, function(err, result){ //values : [players.Highest_Score]
+            if (err) throw err;
+            if(score > result[0].Highest_Score){
+                
+                var newHighest = "UPDATE players SET Highest_Score = " + score + " WHERE Username = '" + username + "';"; 
+
+                connection.query(newHighest, function(err){
+                   if (err) throw err;
+                   console.log(" Highest updated");
+                });
+            }
+           
+       });
+       
     });
 
     
