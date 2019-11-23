@@ -1,0 +1,51 @@
+<!--
+    This is the first page on load
+    It contains a single form to accept a user log in 
+    Using the form we can update the user details in the data base
+
+    It is styled using style.css 
+    The form information is sent to the data base from client side to server side using JQuery and NodeJS
+    The information is collected and sent using socket.io
+    After the form is succesfully submitted, the NodeJS sends the gamebegin.html using express to begin the game
+    We also use a cookie to send the user details to the JS and HTML for when the game begins
+-->
+
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <!-- Contains the links to the style sheet as well as the libraries for JQuery, cookies and socket -->
+            <link rel="stylesheet" type="text/css" href="style.css"> 
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+            <script src = "https://cdn.socket.io/socket.io-1.4.5.js"></script>
+            <title> CarnEvil_Knights </title>
+        </head>
+
+        <body> 
+            <header><h1> Welcome to CarnEvil_Knights </h1></header> 
+
+            <!-- FORM : -->
+            <div id="myCanvas" >
+                <div id="login">
+                    <form action="/auth" method="POST" id = "signup">
+                        <p> Enter your username <input type="text" name="username" id = "username"required></p>
+                        <p> Enter your password <input type="text" name="password" id = "password" required></p>
+                        <input type="submit" id = "begin" value="Begin Game">
+                    </form>
+                </div>
+            </div>
+
+            <!-- INSTRUCTIONS : -->
+            <div id="ins">
+                <p> Use SPACE Key to jump to avoid graves <br> Use RIGHT Arrow Key to slash the ghosts </p>
+            </div>
+
+            <!-- Client Side JavaScript File : -->
+            <script type="text/javascript" src="mainIndex.js"></script>
+
+        </body>
+
+    </html>
+
+
+

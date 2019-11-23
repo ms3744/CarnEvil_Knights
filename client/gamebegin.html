@@ -1,0 +1,53 @@
+<!--
+    This is the main game html 
+    This is where the user will interact and play with the game
+    It contains all the game components as well as the instructions to play the game
+
+    It is styled using style.css
+    The game interacts with the client side using a JQuery JS file
+    The scores and database that should be updated on the server side is done through NodeJS
+    
+    On load, it shows the single player's score board, the game characters (Knight and grave)
+
+-->
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <!-- Contains the links to the style sheet as well as the libraries for JQuery, cookies and socket -->
+            <link rel="stylesheet" type="text/css" href="style.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+            <script src = "https://cdn.socket.io/socket.io-1.4.5.js"></script>
+            <title> CarnEvil_Knights </title>
+        </head>
+
+        <body> 
+            <header><h1> Welcome to CarnEvil_Knights </h1></header> 
+
+            <!-- GAME CANVAS DIV : -->
+            <div id="myCanvas" >
+                <p id = "scoreboard"> 
+                    <span> <b> Score </b> : <span id = "score"> </span> </span>
+                    <span> <b> Speed </b> : <span id = "speed"> </span> </span> 
+                </p> 
+                <div id = "knight"> </div>
+                <div id = "grave">  </div> 
+            </div>
+
+            <!-- INSTRUCTIONS : -->
+            <div id="ins">
+                <p> Use SPACE Key to jump to avoid graves <br> Use RIGHT Arrow Key to slash the ghosts </p>
+            </div>
+            
+            <!-- Audio Files for the sound effects-->
+            <audio src="Assets\Jump Sound Effect.mp3" id="jumpsound"></audio>
+            <audio src="Assets\knife slash sound effect.mp3" id="slashsound"></audio>
+
+
+             <!-- Client Side JavaScript File : -->
+            <script type="text/javascript" src="game.js"></script> 
+        </body>
+    </html>
+
+
+
