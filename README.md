@@ -6,6 +6,11 @@ CarnEvil knights is an adventure game where the hero (The Knight) fights the inv
 # Group Members
 Megha Sharma, Nikita Singh, Fathima Saaraah Sinnalebbe, Lakshmi Sivadas, Prithyuksha Viswanathan
 
+# Instructions
+Enter user details
+Once entered the game - use SPACE KEY to jump over graves
+Once entered the game - user RIGHT KEY to slash the ghosts (The ghosts will only be slashed if they are close enough)
+
 The repository has two main sides, the client and server. The client side is stored in the client folder
 
 # Client
