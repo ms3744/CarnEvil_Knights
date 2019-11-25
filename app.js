@@ -15,14 +15,19 @@
 
     MySQL is used to connect to the database
 
+    For table information refer to players.sql
 */
 const express = require('express');                             //To store express
 const dataparser = require('body-parser');                      //To store body-parser, reads the body elements
+var crypto = require('crypto');                                 //To encrypt and decrypt videos
 const app = express();                                          //The main app using express
 const urlencodedParser = dataparser();                          //A parser to read the data
 var server = require('http').Server(app);                       //To store the server side 
-var username;
-var password;
+var username;                                                   //To store username
+var password;                                                   //To store password
+var encryptedPassword;                                          //To store encrypted password
+
+
 
 //Directory
 app.use(express.static(__dirname + '/client')); 
@@ -60,6 +65,31 @@ app.post('/auth', urlencodedParser, function(req, res){
     username = req.body.username;
     password = req.body.password;
 
+    //Username sanitization
+    username = username.replace(";","");
+    username = username.replace("!","");
+    username = username.replace("","");
+    username = username.replace("#","");
+    username = username.replace("$","");
+    username = username.replace("%","");
+    username = username.replace("^","");
+    username = username.replace("&","");
+    username = username.replace("*","");
+    username = username.replace("(","");
+    username = username.replace(")","");
+    username = username.replace("@","");
+    username = username.replace("=","");
+    username = username.replace("{","");
+    username = username.replace("}","");
+    username = username.replace(">","");
+    username = username.replace("<","");
+    username = username.replace(":","");
+
+    //To encrypt password
+    var key = crypto.createCipher('aes-128-cbc', 'password');
+    encryptedPassword = key.update(password, 'utf8', 'hex')
+    encryptedPassword += key.final('hex');
+
     //First we check if the username does exist
     var checkUsername = "SELECT * from players WHERE Username = '" + username + "';";
     connection.query(checkUsername, function(err, result){
@@ -68,11 +98,11 @@ app.post('/auth', urlencodedParser, function(req, res){
         //If the user does exist
         if(result.length){
             //We check if the user has the same password
-            var checkPassword = "SELECT * from players WHERE Password = '" + password + "';";
+            var checkPassword = "SELECT * from players WHERE Password = '" + encryptedPassword + "';";
             
             connection.query(checkPassword, function(err, result){
                 if (err) throw err;
-
+                console.log(result + " password");
                 //If it has the same password as well
                 if (result.length){
                     console.log("one exists");
@@ -93,7 +123,7 @@ app.post('/auth', urlencodedParser, function(req, res){
             console.log("none exists");
 
             //We enter a user entry into our table in the database
-            var sql = "INSERT INTO players (Username, Password) VALUES ('"+ username +"','"+password+"');";
+            var sql = "INSERT INTO players (Username, Password) VALUES ('"+ username +"','"+encryptedPassword+"');";
             connection.query(sql, function (err, result) {
                 if (err) throw err;
                 console.log("1 record inserted");
@@ -115,13 +145,47 @@ console.log("This connects to the server");
 
 /* This is to connect socket.io 
  * This will check the connection
+ * and we can send and receive objects
  */
 var io = require('socket.io')(server,{});
 
 io.sockets.on('connection', function(socket) {
     console.log('socket connection');
 
+    //To get the username and password from the form index.html
+    socket.on("user_details", function(uname,pwd){
+        username = uname;
+        //PASSWORD ENCRYPTION
+        var key = crypto.createCipher('aes-128-cbc', 'password');
+        var encryptedPassword = key.update(pwd, 'utf8', 'hex')
+        encryptedPassword += key.final('hex');
 
+        //USERNAME SANITIZATION
+        username = username.replace(";","");
+        username = username.replace("!","");
+        username = username.replace("","");
+        username = username.replace("#","");
+        username = username.replace("$","");
+        username = username.replace("%","");
+        username = username.replace("^","");
+        username = username.replace("&","");
+        username = username.replace("*","");
+        username = username.replace("(","");
+        username = username.replace(")","");
+        username = username.replace("@","");
+        username = username.replace("=","");
+        username = username.replace("{","");
+        username = username.replace("}","");
+        username = username.replace(">","");
+        username = username.replace("<","");
+        username = username.replace(":","");
+
+    });
+
+    //Sending the user details to the client side JS
+    socket.emit('user-details-client', username, encryptedPassword);
+
+    //If the user is playing again, we reset the password and username
     socket.on('playingAgain', function(uname,pwd){
         username = uname;
         password = pwd;
@@ -169,14 +233,32 @@ io.sockets.on('connection', function(socket) {
             connection.query("SELECT Highest_Score, Username from players ORDER BY Highest_Score DESC LIMIT 3", function(err, result){
                 if (err) throw err;
                 console.log(result);
-                socket.emit('bestYet', result[0].Username, result[0].Highest_Score, result[1].Username, result[1].Highest_Score, result[2].Username, result[2].Highest_Score);
-            });
+                //If there are less than three entries in the table, there might be less than 3 results
+                //If there is only one result
+                if(result.length == 1)
+                    socket.emit('bestYet', result[0].Username, result[0].Highest_Score);
+                //If there are two results
+                else if(result.length == 2)
+                    socket.emit('bestYet', result[0].Username, result[0].Highest_Score, result[1].Username, result[1].Highest_Score);
+                //If there are 3 results
+                else
+                    socket.emit('bestYet', result[0].Username, result[0].Highest_Score, result[1].Username, result[1].Highest_Score, result[2].Username, result[2].Highest_Score);            });
 
-            //To send the top three scores globally of all active users
-            connection.query("SELECT Highest_Score, Username from players WHERE timestamp > NOW() - INTERVAL 30 MINUTE ORDER BY Highest_Score DESC LIMIT 3", function(err, result){
+            //To send the top three scores globally of all active users 
+            //Here, the active users are defined as users who have played the game in the last 90 minutes
+            connection.query("SELECT Highest_Score, Username from players WHERE timestamp > NOW() - INTERVAL 90 MINUTE ORDER BY Highest_Score DESC LIMIT 3", function(err, result){
                 if (err) throw err;
                 console.log(result);
-                socket.emit('bestNow', result[0].Username, result[0].Highest_Score, result[1].Username, result[1].Highest_Score, result[2].Username, result[2].Highest_Score);
+                //If there are less than three entries in the table, there might be less than 3 results
+                //If there is only one result
+                if(result.length == 1)
+                    socket.emit('bestNow', result[0].Username, result[0].Highest_Score);
+                //If there are two results
+                else if(result.length == 2)
+                    socket.emit('bestNow', result[0].Username, result[0].Highest_Score, result[1].Username, result[1].Highest_Score);
+                //If there are 3 results
+                else
+                    socket.emit('bestNow', result[0].Username, result[0].Highest_Score, result[1].Username, result[1].Highest_Score, result[2].Username, result[2].Highest_Score);
             });
         });
     });
