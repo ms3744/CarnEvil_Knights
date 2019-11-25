@@ -19,9 +19,13 @@ $(document).ready(function(){
     jumpsound.volume = 0.1;                                 //Setting the volume for the jumping and slashing
     slashSound.volume = 0.1;
     var socket = io();                                      //For socket.io
+    var username;                                           //Storing the username 
+    var password;                                           //Storing the password (Encrypted)
 
-    var username = $.cookie('username');                    //Storing the username cookie
-    var password = $.cookie('password');                    //Storing the password cookie
+    socket.on('user-details-client', function(uname, pwd){
+        username = uname;
+        password = pwd;
+    });
 
 
     var grave_initial_position = 800 ;                      //Initial position of the grave
@@ -32,7 +36,7 @@ $(document).ready(function(){
     var ghostsEntered = false;                              //To check if ghosts have entered the game or not
     var hasBeenScoredGhost = false;                         //To check if knight is scored for the ghost or not                               
     var jumpSpeed = 1100;                                   //Initial speed of each jump
-    var ghost_current_position = 0;                       //To get the current position of the ghost (since ghost does not exist yet, it is 0)
+    var ghost_current_position = 0;                         //To get the current position of the ghost (since ghost does not exist yet, it is 0)
     
 
 
@@ -58,6 +62,9 @@ $(document).ready(function(){
                 we continue the game
             */
             if( grave_current_position < 0  && knight_height > (-90) )   {
+                
+                //To remove the score that got updated for the colliding obstacle
+                --score;
                 console.log('GAME OVER : You collided with the grave');
                 game_over();
             }
@@ -81,7 +88,7 @@ $(document).ready(function(){
             */
             if(grave_current_position < change_position){
                 //Since its entering as a 'new' grave, it's score check will turn to false 
-                //This is because the knight has not been scored for the new entry yet
+                //This is because the knight has not been scored for the new grave entering yet
                 hasBeenScoredGrave = false;
 
                 //We keep a random new position for the grave to increase complexity of the coming graves
@@ -95,7 +102,7 @@ $(document).ready(function(){
 
             //When the score reaches a certain threshold, we begin adding the ghosts for inccreasing complexity
             //Here the threshold is 3
-            if(score > 0){
+            if(score > 3){
 
                 /*
                 COLLISION DETECTION (Game Over Condition):
@@ -126,7 +133,7 @@ $(document).ready(function(){
                 var ghost = $('#ghost');                                            //Selector for the ghost
                 ghost_current_position = parseInt(ghost.css('left'));               //Current position of the ghost
                 var ghost_initial_position = 800;                                   //Initial position of ghost
-                var ghost_random = Math.floor(Math.random() * 700) + grave_random; //Creating random positions for the ghost
+                var ghost_random = Math.floor(Math.random() * 100) + 100 + grave_random; //Creating random positions for the ghost
                 //We add the random position of the grave as well to avoid having the ghosts and graves come in too close
             
 
@@ -219,9 +226,6 @@ $(document).ready(function(){
         //We replace the game arena with a black div once again
         gameArena.replaceWith('<div id = "myCanvas" > </div>');
         $('#myCanvas').css('background-color', 'black');
-        
-        //To remove the score that got updated for the colliding obstacle
-        --score;
 
         //This is to update the current score for the user in the data base
         socket.emit('score',score,username);
@@ -236,6 +240,7 @@ $(document).ready(function(){
 
             //If the user clicks on the Play Again, the game reloads
             $('#beginAgain').click(function () {
+                //To make sure the server side has the correct username and password
                 socket.emit('playingAgain', username, password);
                 location.reload(); //reloads the page on restarting
             });
@@ -243,17 +248,35 @@ $(document).ready(function(){
 
         //This is to check the best score out of all players yet
         socket.on('bestYet', function(u1, sc1, u2, sc2, u3, sc3){
-            console.log(u1 + " html");
 
-            //We display the best score table for all users yet
-            $('#myCanvas').append('<table id = "scoreboard_global"> <tr> <th colspan="2">Best Global Scores</th> <tr> <th>Username : </th> <th>Score : </th> </tr> <tr> <td> ' + u1 +'</td> <td>' + sc1 + '</td> </tr> <tr> <td>' + u2 + '</td> <td>' + sc2 + '</td> </tr> <tr> <td>' + u3 + '</td> <td>' + sc3 + '</td> </tr> </table>');
+            //If there is only one score available
+            if(u2 == undefined)
+                $('#myCanvas').append('<table id = "scoreboard_global"> <tr> <th colspan="2">Best Global Scores</th> <tr> <th>Username : </th> <th>Score : </th> </tr> <tr> <td> ' + u1 +'</td> <td>' + sc1 + '</td> </tr> </table>');
+            
+            //If there are two scores available
+            else if(u3 == undefined)
+                $('#myCanvas').append('<table id = "scoreboard_global"> <tr> <th colspan="2">Best Global Scores</th> <tr> <th>Username : </th> <th>Score : </th> </tr> <tr> <td> ' + u1 +'</td> <td>' + sc1 + '</td> </tr> <tr> <td>' + u2 + '</td> <td>' + sc2 + '</td> </tr> </table>');
+            
+            //If top 3 scores are available
+            else
+                //We display the best score table for all users yet
+                $('#myCanvas').append('<table id = "scoreboard_global"> <tr> <th colspan="2">Best Global Scores</th> <tr> <th>Username : </th> <th>Score : </th> </tr> <tr> <td> ' + u1 +'</td> <td>' + sc1 + '</td> </tr> <tr> <td>' + u2 + '</td> <td>' + sc2 + '</td> </tr> <tr> <td>' + u3 + '</td> <td>' + sc3 + '</td> </tr> </table>');
         });
 
         socket.on('bestNow', function(u1, sc1, u2, sc2, u3, sc3){
-            console.log(u1 + " best HTML");
 
-            //We display the best score table for active users now
-            $('#myCanvas').append('<table id = "scoreboard_active"> <tr> <th colspan="2">Best Local Scores</th> <tr> <th>Username : </th> <th>Score : </th> </tr> <tr> <td> ' + u1 +'</td> <td>' + sc1 + '</td> </tr> <tr> <td>' + u2 + '</td> <td>' + sc2 + '</td> </tr> <tr> <td>' + u3 + '</td> <td>' + sc3 + '</td> </tr> </table>');
+            //If there is only one score available
+            if(u2 == undefined)
+                $('#myCanvas').append('<table id = "scoreboard_active"> <tr> <th colspan="2">Best Active Scores</th> <tr> <th>Username : </th> <th>Score : </th> </tr> <tr> <td> ' + u1 +'</td> <td>' + sc1 + '</td> </tr> </table>');
+                        
+            //If there are two scores available
+            else if(u3 == undefined)
+                $('#myCanvas').append('<table id = "scoreboard_active"> <tr> <th colspan="2">Best Active Scores</th> <tr> <th>Username : </th> <th>Score : </th> </tr> <tr> <td> ' + u1 +'</td> <td>' + sc1 + '</td> </tr> <tr> <td>' + u2 + '</td> <td>' + sc2 + '</td> </tr> </table>');
+            
+            //If top 3 scores are available
+            else
+                //We display the best score table for all users yet
+                $('#myCanvas').append('<table id = "scoreboard_active"> <tr> <th colspan="2">Best Active Scores</th> <tr> <th>Username : </th> <th>Score : </th> </tr> <tr> <td> ' + u1 +'</td> <td>' + sc1 + '</td> </tr> <tr> <td>' + u2 + '</td> <td>' + sc2 + '</td> </tr> <tr> <td>' + u3 + '</td> <td>' + sc3 + '</td> </tr> </table>');
         });
     }
 });

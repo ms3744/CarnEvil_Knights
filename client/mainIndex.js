@@ -1,3 +1,4 @@
+
 /*
     This is the JS file attached to the index (Form Web Page) 
     It is written using JQuery
@@ -24,11 +25,9 @@ $(document).ready(function(){
         },
     );
 
+    var socket = io();
     //On Sign up, the user details are sent as cookies
     $('#signup').submit(function () {
-        $.cookie('username', $('#username').val());
-        $.cookie('password', $('#password').val());
-    });
-
-     
+        socket.emit('user_details', $('#username').val(), $('#password').val());
+    });    
 });
